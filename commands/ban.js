@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("Banni par", `<@${message.author.id}> avec l'ID: ${message.author.id}`)
   .addField("Banni depuis le salon", message.channel)
   .addField("Date", message.createdAt)
-  .addField("Reason", bReason);
+  .addField("Raison", bReason);
 
   let banChannels = message.guild.channels.find(x => x.name === "staff");
   if(!banChannels) return message.channel.send("Impossible de trouver le salon.");
