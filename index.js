@@ -23,6 +23,17 @@ fs.readdir("./commands/", (err, files) => {
 
 });
 
+bot.on("voiceStateUpdate", (oldMember, newMember) => {
+  let newUserChannel = newMember.voiceChannelID
+
+
+  if(newUserChannel == "534437314231926804") {
+    channel.clone(undefined, true, false, 'Clone de channel')
+    .then(clone => console.log(`Cloned ${channel.name} to make a channel called ${clone.name}`))
+    .catch(console.error);
+  }
+});
+
 bot.on("ready", async () => {
   console.log(`${bot.user.username} est connecté!`);
   bot.user.setActivity("Tapez k:aide !");
