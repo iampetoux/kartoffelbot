@@ -25,7 +25,7 @@ fs.readdir("./commands/", (err, files) => {
 
 bot.on("voiceStateUpdate", (oldMember, newMember) => {
   let newUserChannel = newMember.voiceChannelID
-
+  let channel = client.channels.get("626043862397354025")
 
   if(newUserChannel == "534437314231926804") {
     channel.clone(undefined, true, false, 'Clone de channel')
