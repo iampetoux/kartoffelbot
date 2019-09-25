@@ -34,7 +34,8 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
     .then(clone => {
                console.log(`Clone du channel ${channel.name} pour faire un nouveau channel nommé ${clone.name}`)
                // clone is available
-               let newPrivateChannel = clone.id
+               let newPrivateChannelID = clone.id
+               let newPrivateChannel = bot.channels.get(newPrivateChannelID)
 
                newPrivateChannel.setParent('534437270384541706')
                .then(updated => console.log(`Changement de catégorie de ${updated.name} à ${updated.parent.name}`))
