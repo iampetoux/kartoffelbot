@@ -2,15 +2,15 @@ const botconfig = require("./botconfig.json");
 const tokenfile = require("./token.json");
 const Discord = require("discord.js");
 const fs = require("fs");
-const bot = new Discord.Client({disableEveryone: true});
+const bot = new Discord.Client({ disableEveryone: true });
 bot.commands = new Discord.Collection();
 
 fs.readdir("./commands/", (err, files) => {
 
-  if(err) console.log(err);
+  if (err) console.log(err);
 
   let jsfile = files.filter(f => f.split(".").pop() == "js");
-  if(jsfile.length <= 0) {
+  if (jsfile.length <= 0) {
     console.log("Aucune commande trouvée.");
     return;
   }
@@ -27,33 +27,33 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
   let newUserChannelID = newMember.voiceChannelID
   let newUserName = newMember.displayName
   let channel = bot.channels.get("626043862397354025")
-  let newPrivateChannel
 
-  if(newUserChannelID == "534437314231926804") {
+  if (newUserChannelID == "534437314231926804") {
     channel.clone('Salon privé de ' + newUserName, true, false, 'Création channel privé.')
-    .then(clone => {
-               console.log(`Clone du channel ${channel.name} pour faire un nouveau channel nommé ${clone.name}`)
-               // clone is available
-               let newPrivateChannelID = clone.id
-               let newPrivateChannel = bot.channels.get(newPrivateChannelID)
+      .then(clone => {
+        console.log(`Clone du channel ${channel.name} pour faire un nouveau channel nommé ${clone.name}`)
+        // clone is available
+        let newPrivateChannelID = clone.id
+      })
+      .catch(console.error);
 
-               newPrivateChannel.setParent('534437270384541706')
-               .then(updated => console.log(`Changement de catégorie de ${updated.name} à ${updated.parent.name}`))
-               .catch(console.error);
+    let newPrivateChannel = bot.channels.get(newPrivateChannelID)
 
-               newMember.setVoiceChannel(newPrivateChannel)
+    newPrivateChannel.setParent('534437270384541706')
+      .then(updated => console.log(`Changement de catégorie de ${updated.name} à ${updated.parent.name}`))
+      .catch(console.error);
 
-               bot.on("voiceStateUpdate", (newMemberAfterPrivate) => {
-                 let newUserNotPrivateChannelID = newMemberAfterPrivate.voiceChannelID
+    newMember.setVoiceChannel(newPrivateChannel)
 
-                if(newUserNotPrivateChannelID != newPrivateChannelID) {
-                  newPrivateChannel.delete('L\'utilisateur a quitté son channel privé.')
-                  .then(deleted => console.log(`Suppression du channel privé ${deleted.name} comme l'utilisateur l'a quitté.`))
-                  .catch(console.error);
-                }
-               });
-    })
-    .catch(console.error);
+    bot.on("voiceStateUpdate", (newMemberAfterPrivate) => {
+      let newUserNotPrivateChannelID = newMemberAfterPrivate.voiceChannelID
+
+      if (newUserNotPrivateChannelID != newPrivateChannelID) {
+        newPrivateChannel.delete('L\'utilisateur a quitté son channel privé.')
+          .then(deleted => console.log(`Suppression du channel privé ${deleted.name} comme l'utilisateur l'a quitté.`))
+          .catch(console.error);
+      }
+    });
 
   }
 });
@@ -72,8 +72,8 @@ bot.on("guildMemberAdd", async member => {
 });
 
 bot.on("message", async message => {
-  if(message.author.bot) return;
-  if(message.channel.type === "dm") return;
+  if (message.author.bot) return;
+  if (message.channel.type === "dm") return;
 
   let prefix = botconfig.prefix;
   let messageArray = message.content.split(" ");
@@ -81,7 +81,7 @@ bot.on("message", async message => {
   let args = messageArray.slice(1);
 
   let commandfile = bot.commands.get(cmd.slice(prefix.length));
-  if(commandfile) commandfile.run(bot, message, args);
+  if (commandfile) commandfile.run(bot, message, args);
 
 });
 
