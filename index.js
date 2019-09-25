@@ -34,26 +34,19 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
         console.log(`Clone du channel ${channel.name} pour faire un nouveau channel nommé ${clone.name}`)
         // clone is available
         let newPrivateChannelID = clone.id
-      })
-      .catch(console.error);
+        let newPrivateChannel = bot.channels.get(newPrivateChannelID)
 
-    let newPrivateChannel = bot.channels.get(newPrivateChannelID)
+        newPrivateChannel.setParent('534437270384541706')
+          .then(updated => console.log(`Changement de catégorie de ${updated.name} à ${updated.parent.name}`))
+          .catch(console.error);
 
-    newPrivateChannel.setParent('534437270384541706')
-      .then(updated => console.log(`Changement de catégorie de ${updated.name} à ${updated.parent.name}`))
-      .catch(console.error);
+        newMember.setVoiceChannel(newPrivateChannel)
 
-    newMember.setVoiceChannel(newPrivateChannel)
-
-    bot.on("voiceStateUpdate", (newMemberAfterPrivate) => {
-      let newUserNotPrivateChannelID = newMemberAfterPrivate.voiceChannelID
-
-      if (newUserNotPrivateChannelID != newPrivateChannelID) {
         newPrivateChannel.delete('L\'utilisateur a quitté son channel privé.')
           .then(deleted => console.log(`Suppression du channel privé ${deleted.name} comme l'utilisateur l'a quitté.`))
           .catch(console.error);
-      }
-    });
+      })
+      .catch(console.error);
 
   }
 });
