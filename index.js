@@ -43,8 +43,10 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 
                newMember.setVoiceChannel(newPrivateChannel)
 
-               bot.on("voiceStateUpdate", (newMember) => {
-                if(newUserChannelID != newPrivateChannelID) {
+               bot.on("voiceStateUpdate", (newMemberAfterPrivate) => {
+                 let newUserNotPrivateChannelID = newMemberAfterPrivate.voiceChannelID
+
+                if(newUserNotPrivateChannelID != newPrivateChannelID) {
                   newPrivateChannel.delete('L\'utilisateur a quitté son channel privé.')
                   .then(deleted => console.log(`Suppression du channel privé ${deleted.name} comme l'utilisateur l'a quitté.`))
                   .catch(console.error);
