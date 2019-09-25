@@ -25,7 +25,7 @@ fs.readdir("./commands/", (err, files) => {
 
 bot.on("voiceStateUpdate", (oldMember, newMember) => {
   let newUserChannelID = newMember.voiceChannelID
-  let newUserName = newMember.username
+  let newUserName = member.displayName
   let channel = bot.channels.get("626043862397354025")
 
   if(newUserChannelID == "534437314231926804") {
