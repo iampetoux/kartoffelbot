@@ -27,13 +27,14 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
   let newUserChannelID = newMember.voiceChannelID
   let newUserName = newMember.displayName
   let channel = bot.channels.get("626043862397354025")
+  let newPrivateChannel
 
   if(newUserChannelID == "534437314231926804") {
     channel.clone('Salon privé de ' + newUserName, true, false, 'Création channel privé.')
-    .then(clone => console.log(`Clone du channel ${channel.name} pour faire un nouveau channel nommé ${clone.name}`))
+    .then(clone => console.log(`Clone du channel ${channel.name} pour faire un nouveau channel nommé ${clone.name}`), this.newPrivateChannel = clone.id)
     .catch(console.error);
 
-    newMember.setVoiceChannel(channel)
+    newMember.setVoiceChannel(newPrivateChannel)
   }
 });
 
