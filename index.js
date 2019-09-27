@@ -32,7 +32,7 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
     channel.clone('Salon privé de ' + newUserName, true, false, 'Création channel privé.')
       .then(clone => {
         console.log(`Clone du channel ${channel.name} pour faire un nouveau channel nommé ${clone.name}`)
-        // clone is available
+        // channel clone utilisable
         let newPrivateChannelID = clone.id
         let newPrivateChannel = bot.channels.get(newPrivateChannelID)
 
@@ -42,12 +42,15 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
 
         newMember.setVoiceChannel(newPrivateChannel)
 
+
+        bot.on("voiceStateUpdate", (thenewMember) => {
+          console.log("nikzebi");
+        });
         newPrivateChannel.delete('L\'utilisateur a quitté son channel privé.')
           .then(deleted => console.log(`Suppression du channel privé ${deleted.name} comme l'utilisateur l'a quitté.`))
           .catch(console.error);
       })
       .catch(console.error);
-
   }
 });
 
