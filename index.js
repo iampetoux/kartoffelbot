@@ -40,14 +40,13 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
           .then(updated => console.log(`Changement de catégorie de ${updated.name} à ${updated.parent.name}`))
           .catch(console.error);
 
-        newMember.setVoiceChannel(newPrivateChannel)
+        newMember.setVoiceChannel(newPrivateChannel);
 
-
-        bot.on("voiceStateUpdate", (thenewMember) => {
-            newPrivateChannel.delete('L\'utilisateur a quitté son channel privé.')
-                .then(deleted => console.log(`Suppression du channel privé ${deleted.name} comme l'utilisateur l'a quitté.`))
-                .catch(console.error);
-        });
+        // bot.on("voiceStateUpdate", (newMember) => {
+        //     newPrivateChannel.delete('L\'utilisateur a quitté son channel privé.')
+        //         .then(deleted => console.log(`Suppression du channel privé ${deleted.name} comme l'utilisateur l'a quitté.`))
+        //         .catch(console.error);
+        // });
       })
       .catch(console.error);
   }
